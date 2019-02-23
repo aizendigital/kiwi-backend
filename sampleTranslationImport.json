@@ -1,0 +1,26 @@
+[
+    { 
+        "origin_lang": "fa",
+        "translation_lang": "en",
+        "word": "هواپیما",
+        "translation": "airplane"
+    },
+    { 
+        "origin_lang": "fa",
+        "translation_lang": "en",
+        "word": "مسافر",
+        "translation": "passenger"
+    },
+    { 
+        "origin_lang": "fa",
+        "translation_lang": "en",
+        "word": "خوش آمدید",
+        "translation": "welcome"
+    },
+    { 
+        "origin_lang": "fa",
+        "translation_lang": "az",
+        "word": "هواپیما",
+        "translation": "təyyarə"
+    }
+]

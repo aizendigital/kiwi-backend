@@ -1,0 +1,274 @@
+{
+  "title": "IcyJSON API Documentation",
+  "description": "IcyJSON API from iiCiiGiirl",
+  "license": {
+    "name": "MIT",
+    "url": "https://opensource.org/licenses/MIT"
+  },
+  "version": "1.0.0",
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "tags": [{
+    "name": "Translation",
+    "description": "API for Translations Endpoints"
+  }],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/translation": {
+      "post": {
+        "tags": ["Translation"],
+        "summary": "API Endpoint for uploading JSON translation file",
+        "description": "Import new words from JSON file and create new translations in database",
+        "parameters": [{
+          "in": "formData",
+          "name": "upfile",
+          "type": "file",
+          "description": "Translation params to create new translation",
+          "required": "true",
+          "schema": {
+            "$ref": "#definitions/Translation"
+          }
+        }],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New Translation Created",
+            "schema": {
+              "$ref": "#definitions/Translation"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Translation"],
+        "summary": "API Endpoint to get all translations",
+        "description": "Find all translations for specific language from the database",
+        "parameters": [
+        {
+          "name": "origin_lang",
+          "type": "string",
+          "description": "main language of the word",
+          "in": "query"
+        },
+        {
+          "name": "translation_lang",
+          "type": "string",
+          "description": "translating language of the words",
+          "in": "query"
+        },
+        {
+            "name": "page",
+            "type": "integer",
+            "description": "Define the page index for the records",
+            "in": "query"
+          },
+          {
+            "name": "perPage",
+            "type": "integer",
+            "description": "Define the limiet for the records i.e 10",
+            "in": "query"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Get all the translations",
+            "schema": {
+              "$ref": "#definitions/Translations"
+            }
+          }
+        }
+      }
+    },
+    "/translation/create": {
+      "post": {
+        "tags": ["Translation"],
+        "summary": "API Endpoint to add single Translation",
+        "description": "Find one from the database",
+        "parameters": [{
+          "name": "translation",
+          "description": "Translation params to update the translation",
+          "in": "body",
+          "schema": {
+            "$ref": "#definitions/UpdateTranslation"
+          }
+        }],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Translation has been Updated",
+            "schema": {
+              "$ref": "#definitions/Translation"
+            }
+          }
+        }
+      }
+    },
+    "/translation/{word}": {
+      "parameters": [{
+        "name": "word",
+        "in": "path",
+        "required": "true",
+        "description": "word to be translated",
+        "type": "string"
+      }],
+      "get": {
+        "tags": ["Translation"],
+        "summary": "API Endpoint to find single Translation",
+        "description": "Find one from the database",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Translation has found"
+          }
+        }
+      }
+    },
+    "/translation/{id}": {
+      "parameters": [{
+        "name": "id",
+        "in": "path",
+        "required": "true",
+        "description": "unique id of the word",
+        "type": "string"
+      }],
+      "put": {
+        "tags": ["Translation"],
+        "summary": "API Endpoint for updating translation",
+        "description": "Update the existing translation in database",
+        "parameters": [{
+          "name": "translation",
+          "description": "Translation params to update the translation",
+          "in": "body",
+          "schema": {
+            "$ref": "#definitions/UpdateTranslation"
+          }
+        }],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Translation has been Updated",
+            "schema": {
+              "$ref": "#definitions/Translation"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Translation"],
+        "summary": "API Endpoint to delete a single translation",
+        "description": "Delete translation from the database",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Translation has been deleted"
+          }
+        }
+      }
+    }
+  },
+  "Translation": {
+    "required": ["title", "url"],
+    "properties": {
+      "_id": {
+        "type": "string"
+      },
+      "title": {
+        "type": "string"
+      },
+      "url": {
+        "type": "string"
+      },
+      "rating": {
+        "type": "integer",
+        "format": "Int32"
+      }
+    }
+  },
+  "UpdateTranslation": {
+    "properties": {
+      "origin_lang": {
+        "type": "string"
+      },
+      "translation_lang": {
+        "type": "string"
+      },
+      "word": {
+        "type": "string"
+      },
+      "translation": {
+        "type": "string"
+      }
+    }
+  },
+  "Translations": {
+    "properties": {
+      "docs": {
+        "type": "array",
+        "$ref": "#definitions/Translation"
+      },
+      "total": {
+        "type": "integer"
+      },
+      "pages": {
+        "type": "integer"
+      },
+      "limit": {
+        "type": "integer"
+      },
+      "page": {
+        "type": "integer"
+      }
+    }
+  },
+  "definitions": {
+    "Translation": {
+      "required": ["upfile"],
+      "properties": {
+        "upfile": {
+          "type": "file",
+          "description": "file with json content like: \n{ \n'origin_lang': 'fa',\n'translation_lang': 'en',\n'word': 'هواپیما',\n'translation': 'airplane'\n}"
+        }
+      }
+    },
+    "UpdateTranslation": {
+      "properties": {
+        "origin_lang": {
+          "type": "string"
+        },
+        "translation_lang": {
+          "type": "string"
+        },
+        "word": {
+          "type": "string"
+        },
+        "translation" : {
+          "type": "string"
+        }
+      }
+    },
+    
+    "Translations": {
+      "properties": {
+        "docs": {
+          "type": "array",
+          "$ref": "#definitions/Translation"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "pages": {
+          "type": "integer"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "page": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}
