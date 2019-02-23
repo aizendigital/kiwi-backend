@@ -1,5 +1,6 @@
 {
   "title": "IcyJSON API Documentation",
+  "swagger": "2.0",
   "description": "IcyJSON API from iiCiiGiirl",
   "license": {
     "name": "MIT",
